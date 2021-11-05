@@ -1,0 +1,115 @@
+*{
+    box-sizing: border-box;
+    margin:0;
+    padding: 0;
+}
+
+body{
+    background:#1F1D36;
+    color:#FFFFFF;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.container{
+    padding:2em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+h1{
+    font-size: 4.5em;
+    margin:10px;
+}
+
+h3{
+    font-size: 1.75em;
+}
+
+input{
+    height:20px;
+    width:20px;
+    margin-right:5px;
+    position: relative;
+    top:5px;
+}
+
+.ratings-div,.tags-div{
+    margin:20px auto;
+    display: flex;
+    flex-direction: column;
+
+}
+.ratings-tab,.tags-tab{
+    display: grid;
+    grid-template-columns: repeat(7,1fr);
+}
+
+.ratings-tab .check,.tags-tab .check{
+    margin:10px;
+    margin-left:0;
+}
+
+button{
+    background:rgb(36, 36, 36);
+    color:#fff;
+    border:2px solid rgb(168, 164, 164);
+    font-size:16px;
+    padding:10px 15px;
+    border-radius:10px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#0e0d0d;
+    color:#fff;
+}
+
+@media only screen and (max-width:600px) {
+    h1{
+        font-size:3.5em;
+    }
+
+    h3{
+        font-size:1em;
+    }
+
+    input{
+        height:15px;
+        width:15px;
+        margin-right:5px;
+        position: relative;
+        top:2.5px;
+    }
+    .ratings-div,.tags-div{
+        margin:10px auto;
+        display: flex;
+        flex-direction: column;
+    
+    }
+    .ratings-tab,.tags-tab{
+        display: grid;
+        grid-template-columns: repeat(3,1fr);
+    }
+    
+    .ratings-tab .check,.tags-tab .check{
+        margin:10px;
+        margin-left:0;
+    }
+    
+    button{
+        background:rgb(36, 36, 36);
+        color:#fff;
+        border:2px solid rgb(168, 164, 164);
+        font-size:16px;
+        padding:10px 15px;
+        border-radius:10px;
+        cursor:pointer;
+    }
+    
+    button:hover{
+        background:#0e0d0d;
+        color:#fff;
+    }
+}
