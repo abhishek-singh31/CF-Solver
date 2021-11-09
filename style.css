@@ -126,7 +126,7 @@ button:hover{
     border:2px solid #f1f1f1;
     border-radius:10px;
     padding:10px;
-    position: absolute;
+    position: fixed;
     right:10px;
     top:10px;
 }
