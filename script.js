@@ -8,8 +8,14 @@ const login=document.querySelector('#login');
 const userName=document.querySelector('#uname');
 const container=document.querySelector('.container');
 const login_section=document.querySelector('.login-section');
+const modal=document.querySelector('.modal');
 const footer=document.querySelector('.footer');
-
+const timeLeft=document.querySelector('.time-left');
+const overlay=document.querySelector('.overlay');
+const done=document.querySelector('#done');
+const giveup=document.querySelector('#giveup');
+const current=document.querySelector('.current');
+const high=document.querySelector('.high');
 login.addEventListener('click',(e)=>{
     e.preventDefault();
     let userHandle='https://codeforces.com/api/user.info?handles=';
@@ -34,11 +40,16 @@ login.addEventListener('click',(e)=>{
     })
 })
 
+let myInterval;
+let selectedRating;
+let selectedTags;
+let selectedProblems;
+let x;
 solve.addEventListener('click',(e)=>{
     e.preventDefault();
     let URL='https://codeforces.com/api/problemset.problems';
-    let selectedTags=[];
-    let selectedRating=[];
+    selectedTags=[];
+    selectedRating=[];
     for(let r of rating){
         if(r.checked==true){
             selectedRating.push(+r.name);
@@ -66,7 +77,7 @@ solve.addEventListener('click',(e)=>{
     })
     .then((data)=>{
         const problems=data['result']['problems'];
-        const selectedProblems=[];
+        selectedProblems=[];
         for(const problem of problems){
             if(problem.hasOwnProperty('rating')){
                 if(selectedRating.length==0 || selectedRating.includes(problem['rating'])){
@@ -77,21 +88,28 @@ solve.addEventListener('click',(e)=>{
         if(selectedProblems.length==0){
             throw new Error();
         }
-        let x=Math.floor(Math.random()*selectedProblems.length);
+        x=Math.floor(Math.random()*selectedProblems.length);
         let problemURL=`https://www.codeforces.com/contest/${selectedProblems[x]['contestId']}/problem/${selectedProblems[x]['index']}`;
         let totalTime=(+hour.value*3600)+(+minute.value*60) + (+second.value);
-        if(totalTime==0){
+        console.log(totalTime);
+        if(totalTime==0 || isNaN(totalTime)){
             alert('Please enter valid time !');
         }
         else{
+            modal.style.display='grid';
+            container.style.display='none';
+            footer.classList.add('before');
+            overlay.style.display='block';
+            myInterval=setInterval(()=>{
+                timeLeft.innerHTML=fancyTimeFormat(totalTime);
+                totalTime--;
+                if(totalTime==0){
+                    check(selectedProblems,x);
+                    clearInterval(myInterval);
+                    reset();
+                }
+            },1000);
             openProblem(problemURL);
-            console.log(totalTime);
-            if(totalTime>0){
-                setTimeout(() => {
-                    let sound=new Audio('audio/audio1.mp3');
-                    sound.play();
-                },totalTime*1000);
-            }
         }
     })
     .catch(err=>{
@@ -99,8 +117,81 @@ solve.addEventListener('click',(e)=>{
     })
 })
 
+
+done.addEventListener('click',(e)=>{
+    e.preventDefault();
+    let previousScore=+current.innerHTML;
+    check(selectedProblems,x);
+})
+giveup.addEventListener('click',(e)=>{
+    e.preventDefault();
+    reset();
+    totalTime=0;
+})
+
+function check(selectedProblems,x){
+    let URL=`https://codeforces.com/api/user.status?handle=${userName.value}&from=1&count=1`;
+    console.log(URL);
+    fetch(URL)
+    .then((response) => {
+        if(response.ok){
+            return response.json();
+        }
+        else{
+            throw new Error();
+        }
+    })
+    .then((data)=>{
+        let userContestId=data['result'][0]['problem']['contestId'];
+        let userIndex=data['result'][0]['problem']['index'];
+        let solvedContestId=selectedProblems[x]['contestId'];
+        let solvedIndex=selectedProblems[x]['index'];
+        let verdict=data['result'][0]['verdict'];
+        if(userContestId==solvedContestId && userIndex==solvedIndex && verdict==="OK"){
+            console.log("Mission Successful");
+            current.innerHTML++;
+            clearInterval(myInterval);
+            reset();
+        }
+    })
+    .catch(err=>{
+        alert("Some Error Occured !");
+    })
+
+}
+
+function reset(){
+    clearInterval(myInterval);
+    modal.style.display='none';
+    container.style.display='flex';
+    footer.classList.remove('before');
+    overlay.style.display='none';
+    timeLeft.innerHTML="";
+}
 function openProblem(URL){
     window.open(URL,'_blank');
 }
+
+function fancyTimeFormat(duration)
+{   
+    // Hours, minutes and seconds
+    var hrs = ~~(duration / 3600);
+    var mins = ~~((duration % 3600) / 60);
+    var secs = ~~duration % 60;
+
+    // Output like "1:01" or "4:03:59" or "123:03:59"
+    var ret = "";
+
+    if (hrs > 0) {
+        ret += "" + hrs + ":" + (mins < 10 ? "0" : "");
+    }
+
+    ret += "" + mins + ":" + (secs < 10 ? "0" : "");
+    ret += "" + secs;
+    return ret;
+}
+
+
+
 
 
