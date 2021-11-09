@@ -5,13 +5,14 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <link rel="shortcut icon" href="images/code.png" type="image/x-icon">    <title>CF-Solver</title>
+    <link rel="shortcut icon" href="images/code.png" type="image/x-icon">    
+    <title>CF-Solver</title>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/all.css" integrity="sha384-SZXxX4whJ79/gErwcOYf+zWLeJdY/qpuqC4cAa9rOGUstPomtqpuNWT9wdPEn2fk" crossorigin="anonymous">
 </head>
 <body>
     <h1>CF-Solver</h1>
     <div class="login-section">
-        <label>Enter Codeforces username to start:</label>
+        <label>Enter Codeforces Username to start:</label>
         <input type="text" name="" id="uname">
         <button id="login">Enter</button>
     </div>
@@ -99,11 +100,11 @@
                     </div>
                     <div class="timer-form">
                         <input type="text" name="minutes" id="minute" value=0>
-                        <label for="hour">minutes</label>
+                        <label for="minute">minutes</label>
                     </div>
                     <div class="timer-form">
-                        <input type="text" name="hours" id="second" value=0>
-                        <label for="hour">seconds</label>
+                        <input type="text" name="seconds" id="second" value=0>
+                        <label for="second">seconds</label>
                     </div>
                 </div>
             </div>            
@@ -111,7 +112,17 @@
         <button id="solve">Click to start solving</button>
         <div class="score">
             <h4>Your Score: <span class="current">0</span></h4>
-            <h4>High Score: <span class="high">0</span></h4>
+            <!-- <h4>High Score: <span class="high">0</span></h4> -->
+        </div>
+    </div>
+    <div class="overlay">
+    </div>
+    <div class="modal">
+        <h2>Time Left:</h2>
+        <h3 class="time-left"></h3>
+        <div class="btn-group">
+            <button id="done">Done</button>
+            <button id="giveup">Giveup</button>
         </div>
     </div>
     <div class="footer before">
