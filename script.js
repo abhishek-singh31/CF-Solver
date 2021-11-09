@@ -1,15 +1,42 @@
-const btn=document.querySelector('button');
+const solve=document.querySelector('#solve');
 const tags=document.querySelectorAll('#tags');
 const rating=document.querySelectorAll('#rating');
 const hour=document.querySelector('#hour');
 const minute=document.querySelector('#minute');
 const second=document.querySelector('#second');
+const login=document.querySelector('#login');
+const userName=document.querySelector('#uname');
+const container=document.querySelector('.container');
+const login_section=document.querySelector('.login-section');
+const footer=document.querySelector('.footer');
 
-let URL='https://codeforces.com/api/problemset.problems';
-let defaultURL='https://codeforces.com/api/problemset.problems';
-btn.addEventListener('click',(e)=>{
+login.addEventListener('click',(e)=>{
     e.preventDefault();
-    URL=defaultURL;
+    let userHandle='https://codeforces.com/api/user.info?handles=';
+    userHandle+=`${userName.value}`;
+    fetch(userHandle)
+    .then((response) => {
+        if(response.ok){
+            return response.json();
+        }
+        else{
+            throw new Error();
+        }
+    })
+    .then((data)=>{
+        console.log(data);
+        login_section.style.display='none';
+        footer.classList.remove('before');
+        container.style.display='flex';
+    })
+    .catch(err=>{
+        alert("Please enter correct username !");
+    })
+})
+
+solve.addEventListener('click',(e)=>{
+    e.preventDefault();
+    let URL='https://codeforces.com/api/problemset.problems';
     let selectedTags=[];
     let selectedRating=[];
     for(let r of rating){
@@ -27,6 +54,7 @@ btn.addEventListener('click',(e)=>{
         for(let t of selectedTags)
             URL+=`${t};`;
     }
+    console.log(userName.value)
     fetch(URL)
     .then((response) => {
         if(response.ok){
@@ -51,14 +79,19 @@ btn.addEventListener('click',(e)=>{
         }
         let x=Math.floor(Math.random()*selectedProblems.length);
         let problemURL=`https://www.codeforces.com/contest/${selectedProblems[x]['contestId']}/problem/${selectedProblems[x]['index']}`;
-        openProblem(problemURL);
         let totalTime=(+hour.value*3600)+(+minute.value*60) + (+second.value);
-        console.log(totalTime);
-        if(totalTime>0){
-            setTimeout(() => {
-                let sound=new Audio('audio/audio1.mp3');
-                sound.play();
-            },totalTime*1000);
+        if(totalTime==0){
+            alert('Please enter valid time !');
+        }
+        else{
+            openProblem(problemURL);
+            console.log(totalTime);
+            if(totalTime>0){
+                setTimeout(() => {
+                    let sound=new Audio('audio/audio1.mp3');
+                    sound.play();
+                },totalTime*1000);
+            }
         }
     })
     .catch(err=>{
@@ -70,21 +103,4 @@ function openProblem(URL){
     window.open(URL,'_blank');
 }
 
-function fancyTimeFormat(duration)
-{   
-    // Hours, minutes and seconds
-    var hrs = ~~(duration / 3600);
-    var mins = ~~((duration % 3600) / 60);
-    var secs = ~~duration % 60;
 
-    // Output like "1:01" or "4:03:59" or "123:03:59"
-    var ret = "";
-
-    if (hrs > 0) {
-        ret += "" + hrs + ":" + (mins < 10 ? "0" : "");
-    }
-
-    ret += "" + mins + ":" + (secs < 10 ? "0" : "");
-    ret += "" + secs;
-    return ret;
-}
