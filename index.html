@@ -5,13 +5,17 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <link rel="shortcut icon" href="images/code.png" type="image/x-icon">    
-    <title>CF-Solver</title>
+    <link rel="shortcut icon" href="images/code.png" type="image/x-icon">    <title>CF-Solver</title>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/all.css" integrity="sha384-SZXxX4whJ79/gErwcOYf+zWLeJdY/qpuqC4cAa9rOGUstPomtqpuNWT9wdPEn2fk" crossorigin="anonymous">
 </head>
 <body>
+    <h1>CF-Solver</h1>
+    <div class="login-section">
+        <label>Enter Codeforces username to start:</label>
+        <input type="text" name="" id="uname">
+        <button id="login">Enter</button>
+    </div>
     <div class="container">
-        <h1>CF-Solver</h1>
         <div class="section">
             <div class="ratings-div">
                 <h3>Select Rating:</h3>
@@ -104,9 +108,13 @@
                 </div>
             </div>            
         </div>
-        <button>Click to start solving</button>
+        <button id="solve">Click to start solving</button>
+        <div class="score">
+            <h4>Your Score: <span class="current">0</span></h4>
+            <h4>High Score: <span class="high">0</span></h4>
+        </div>
     </div>
-    <div class="footer">
+    <div class="footer before">
         <p>Developed with ❤ by Abhishek Pratap Singh</p>
         <div class="contact-links">
             <a href="https://www.linkedin.com/in/abhishek-pratap-singh-33280a1b9/" target="_blank"><i class="fab fa-linkedin"></i></a>
