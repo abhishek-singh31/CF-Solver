@@ -16,6 +16,11 @@ const done=document.querySelector('#done');
 const giveup=document.querySelector('#giveup');
 const current=document.querySelector('.current');
 const high=document.querySelector('.high');
+const timeup=document.querySelector('.timeup');
+const success=document.querySelector('.success');
+const failure=document.querySelector('.failure');
+const gaveup=document.querySelector('.gaveup');
+let totalTime;
 login.addEventListener('click',(e)=>{
     e.preventDefault();
     let userHandle='https://codeforces.com/api/user.info?handles=';
@@ -90,7 +95,7 @@ solve.addEventListener('click',(e)=>{
         }
         x=Math.floor(Math.random()*selectedProblems.length);
         let problemURL=`https://www.codeforces.com/contest/${selectedProblems[x]['contestId']}/problem/${selectedProblems[x]['index']}`;
-        let totalTime=(+hour.value*3600)+(+minute.value*60) + (+second.value);
+        totalTime=(+hour.value*3600)+(+minute.value*60) + (+second.value);
         console.log(totalTime);
         if(totalTime==0 || isNaN(totalTime)){
             alert('Please enter valid time !');
@@ -104,7 +109,7 @@ solve.addEventListener('click',(e)=>{
                 timeLeft.innerHTML=fancyTimeFormat(totalTime);
                 totalTime--;
                 if(totalTime==0){
-                    check(selectedProblems,x);
+                    check(selectedProblems,x,totalTime);
                     clearInterval(myInterval);
                     reset();
                 }
@@ -121,10 +126,14 @@ solve.addEventListener('click',(e)=>{
 done.addEventListener('click',(e)=>{
     e.preventDefault();
     let previousScore=+current.innerHTML;
-    check(selectedProblems,x);
+    check(selectedProblems,x,totalTime);
 })
 giveup.addEventListener('click',(e)=>{
     e.preventDefault();
+    gaveup.classList.add('active');
+    setTimeout(()=>{
+        gaveup.classList.remove('active');
+    },2000);
     reset();
     totalTime=0;
 })
@@ -151,7 +160,26 @@ function check(selectedProblems,x){
             console.log("Mission Successful");
             current.innerHTML++;
             clearInterval(myInterval);
+            success.classList.add('active');
+            setTimeout(()=>{
+                success.classList.remove('active');
+            },2000);
             reset();
+        }
+        else{
+            if(totalTime==0){
+                timeup.classList.add('active');
+                setTimeout(()=>{
+                    timeup.classList.remove('active');
+                },3000);
+                reset();
+            }
+            else{
+                failure.classList.add('active');
+                setTimeout(()=>{
+                    failure.classList.remove('active');
+                },2000);
+            }
         }
     })
     .catch(err=>{
@@ -190,7 +218,6 @@ function fancyTimeFormat(duration)
     ret += "" + secs;
     return ret;
 }
-
 
 
 
