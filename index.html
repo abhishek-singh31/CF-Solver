@@ -11,13 +11,21 @@
 </head>
 <body>
     <h1>CF-Solver</h1>
+    <!-- Login Section -->
+
     <div class="login-section">
         <label>Enter Codeforces Username to start:</label>
         <input type="text" name="" id="uname">
         <button id="login">Enter</button>
     </div>
+
+    <!-- Problems Section -->
+
     <div class="container">
         <div class="section">
+
+            <!-- Ratings Section -->
+
             <div class="ratings-div">
                 <h3>Select Rating:</h3>
                 <div class="ratings-tab">
@@ -51,6 +59,9 @@
                     <div class="check"><input type="checkbox" name="3500" id="rating">3500</div>
                 </div>
             </div>
+
+            <!-- Tags Section -->
+
             <div class="tags-div">
                 <h3>Select Tags:</h3>
                 <div class="tags-tab">
@@ -91,6 +102,9 @@
                     <div class="check"><input type="checkbox" name="two pointers" id="tags">two pointers</div>
                 </div>
             </div>
+
+            <!-- Timer Section -->
+
             <div class="timer">
                 <h3>Select Time:</h3>
                 <div class="timer-div">
@@ -115,6 +129,9 @@
             <!-- <h4>High Score: <span class="high">0</span></h4> -->
         </div>
     </div>
+
+    <!-- Overlay Section -->
+
     <div class="overlay">
     </div>
     <div class="modal">
@@ -125,6 +142,9 @@
             <button id="giveup">Giveup</button>
         </div>
     </div>
+
+    <!-- Footer Section -->
+
     <div class="footer before">
         <p>Developed with ❤ by Abhishek Pratap Singh</p>
         <div class="contact-links">
@@ -132,6 +152,35 @@
             <a href="https://github.com/abhishek-singh31" target="_blank"><i class="fab fa-github"></i></a>
         </div>
     </div>
+
+    <!-- Modals Section -->
+    
+    <!-- Time's Up -->
+    <div class="result timeup">
+        <i class="fas fa-hourglass-end"></i>
+        <p>Time's Up !!</p>
+    </div>
+    
+    <!-- Problem Solved -->
+
+    <div class="result success">
+        <i class="fas fa-check-circle"></i>
+        <p>Problem Solved Successfully !!</p>
+    </div>
+
+    <!-- Problem Not Solved -->
+
+    <div class="result failure">
+        <i class="fas fa-times"></i>
+        <p>Problem Not Solved Successfully !!</p>
+    </div>
+
+    <!-- Giveup -->
+    <div class="result gaveup">
+        <i class="fas fa-exchange-alt"></i>
+        <p>You Gave up !!</p>
+    </div>
+
     <script src="script.js"></script>
 </body>
 </html>
