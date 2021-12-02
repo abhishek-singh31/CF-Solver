@@ -190,6 +190,56 @@ i{
     font-size: 24px;
 }
 
+.result{
+    z-index:10000;
+    background:#fff;
+    width:fit-content;
+    padding:10px 20px;
+    display: flex;
+    position: absolute;
+    bottom:100px;
+    left:20px;
+    border-radius:20px;
+    transform:translateX(-1000px);
+    transition: transform 0.4s;
+
+}
+
+.result.active{
+    transition: transform 0.4s;
+    transform:translateX(0);
+}
+
+.result i{
+    margin-right:10px;
+}
+
+.result p{
+    margin-left:10px;
+    font-weight:700;
+}
+.timeup{
+    border:3px solid rgb(255, 0, 0); 
+    color:rgb(255, 0, 0); 
+}
+
+.success{
+    border:3px solid rgb(30, 207, 30); 
+    color:rgb(30, 207, 30);
+}
+
+.failure{
+    border:3px solid rgb(255, 136, 0);
+    color:rgb(255, 136, 0);
+}
+
+.gaveup{
+    border:5px solid rgb(119, 0, 255); 
+    color:rgb(119, 0, 255);
+}
+
+
+
 @media only screen and (max-width:600px) {
     h1{
         font-size:3.5em;
