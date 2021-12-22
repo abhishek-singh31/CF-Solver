@@ -21,6 +21,7 @@ const success=document.querySelector('.success');
 const failure=document.querySelector('.failure');
 const gaveup=document.querySelector('.gaveup');
 let totalTime;
+let userSolvedProblems;
 login.addEventListener('click',(e)=>{
     e.preventDefault();
     let userHandle='https://codeforces.com/api/user.info?handles=';
@@ -35,10 +36,23 @@ login.addEventListener('click',(e)=>{
         }
     })
     .then((data)=>{
-//         console.log(data);
+        console.log(data);
         login_section.style.display='none';
         footer.classList.remove('before');
         container.style.display='flex';
+        let userStatus=`https://codeforces.com/api/user.status?handle=${userName.value}`;
+        fetch(userStatus)
+        .then(response=>response.json())
+        .then(data=>{
+            userSolvedProblems=[]
+            let UserProblems=data['result'];
+            for(const problem of UserProblems){
+                if(problem['verdict']==="OK"){
+                    let problemName=problem['problem']['name'];
+                    userSolvedProblems.push(problemName);
+                }
+            }
+        })
     })
     .catch(err=>{
         alert("Please enter correct username !");
@@ -70,7 +84,7 @@ solve.addEventListener('click',(e)=>{
         for(let t of selectedTags)
             URL+=`${t};`;
     }
-//     console.log(userName.value)
+    // console.log(userName.value)
     fetch(URL)
     .then((response) => {
         if(response.ok){
@@ -85,18 +99,19 @@ solve.addEventListener('click',(e)=>{
         selectedProblems=[];
         for(const problem of problems){
             if(problem.hasOwnProperty('rating')){
-                if(selectedRating.length==0 || selectedRating.includes(problem['rating'])){
+                if((selectedRating.length==0 || selectedRating.includes(problem['rating']))&& !userSolvedProblems.includes(problem['name'])){
                     selectedProblems.push(problem);
                 }
             }
         }
+        // console.log(selectedProblems);
         if(selectedProblems.length==0){
             throw new Error();
         }
         x=Math.floor(Math.random()*selectedProblems.length);
         let problemURL=`https://www.codeforces.com/contest/${selectedProblems[x]['contestId']}/problem/${selectedProblems[x]['index']}`;
         totalTime=(+hour.value*3600)+(+minute.value*60) + (+second.value);
-//         console.log(totalTime);
+        // console.log(totalTime);
         if(totalTime==0 || isNaN(totalTime)){
             alert('Please enter valid time !');
         }
@@ -140,7 +155,7 @@ giveup.addEventListener('click',(e)=>{
 
 function check(selectedProblems,x){
     let URL=`https://codeforces.com/api/user.status?handle=${userName.value}&from=1&count=1`;
-//     console.log(URL);
+    console.log(URL);
     fetch(URL)
     .then((response) => {
         if(response.ok){
@@ -157,7 +172,7 @@ function check(selectedProblems,x){
         let solvedIndex=selectedProblems[x]['index'];
         let verdict=data['result'][0]['verdict'];
         if(userContestId==solvedContestId && userIndex==solvedIndex && verdict==="OK"){
-//             console.log("Mission Successful");
+            // console.log("Mission Successful");
             current.innerHTML++;
             clearInterval(myInterval);
             success.classList.add('active');
