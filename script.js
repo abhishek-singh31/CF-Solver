@@ -212,7 +212,13 @@ function reset(){
     timeLeft.innerHTML="";
 }
 function openProblem(URL){
-    window.open(URL,'_blank');
+    const link = document.createElement('a');
+    link.href = URL.replace('www.codeforces.com', 'codeforces.com'); // Strip 'www'
+    link.target = '_blank';
+    link.rel = 'noopener noreferrer';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
 }
 
 function fancyTimeFormat(duration)
